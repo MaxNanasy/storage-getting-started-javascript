@@ -19,7 +19,10 @@
   <head>
     <meta charset='utf-8' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
     <script src="https://apis.google.com/js/client.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+
     <script type="text/javascript">
 
     /**
@@ -521,11 +524,12 @@
      * Authorize Google Cloud Storage API.
      */
     function checkAuth() {
-      gapi.auth.authorize({
+      google.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope: scopes,
-        immediate: true
-      }, handleAuthResult);
+        prompt: 'none',
+        callback: handleAuthResult
+      }).requestAccessToken();
     }
 
     /**
@@ -547,11 +551,11 @@
      * Handle authorization click event.
      */
     function handleAuthClick(event) {
-      gapi.auth.authorize({
+      google.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope: scopes,
-        immediate: false
-      }, handleAuthResult);
+        callback: handleAuthResult
+      }).requestAccessToken();
       return false;
     }
 
